@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja de Herramientas Tecnológicas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!----------------
+    -----Header-------
+    ------------------>
+    <header class="bg-dark text-white py-3">
+        
+
+<!--Nav bar-->
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"> </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Herramientas de Automatización</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Search</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </nav>
+<!--/Nav bar-->
+
+<div class="container text-center mt-5">
+    <h1>Caja de Herramientas Tecnológicas / Módulo de Automatizaciones</h1>
+</div>
+
+
+    </header>
+
+     <!----------------
+    -----/Header-------
+    ------------------>
+    
+
+
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">Módulo de Automatizaciones</div>
+                    <div class="card-body">
+                        <p><strong>Descripción:</strong> Herramientas para automatizar procesos repetitivos.</p>
+                        <ul>
+                            <li><strong>Python + Selenium:</strong> Automatización de tareas web.</li>
+                            <li><strong>Zapier:</strong> Integración y automatización entre aplicaciones.</li>
+                            <li><strong>Power Automate:</strong> Flujos de trabajo automatizados.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card position-relative" onclick="openModal()">
+                    <div class="card-header bg-success text-white">N8N</div>
+                    <div class="card-body">
+                        <p><strong>Descripción:</strong> Plataforma de automatización de código abierto.</p>
+                        <ul>
+                            <li><strong>Flujos de trabajo:</strong> Conexión de múltiples servicios.</li>
+                            <li><strong>Integraciones:</strong> Soporte para APIs y webhooks.</li>
+                            <li><strong>Self-hosted:</strong> Puede ejecutarse en servidores propios.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+     <!-- Modal -->
+     <div class="modal fade" id="n8nModal" tabindex="-1" aria-labelledby="n8nModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="n8nModalLabel">Más información sobre N8N</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>¿Qué es N8N?</strong></p>
+                    <p>N8N es una plataforma de automatización de código abierto que permite a los desarrolladores y empresas crear flujos de trabajo automatizados mediante nodos y conexiones entre diferentes servicios.</p>
+                    
+                    <p><strong>Características principales:</strong></p>
+                    <ul>
+                        <li>Flujos de trabajo visuales con nodos predefinidos.</li>
+                        <li>Integración con más de 200 aplicaciones y servicios.</li>
+                        <li>Uso de API REST para conectar herramientas personalizadas.</li>
+                        <li>Ejecutar scripts personalizados en JavaScript.</li>
+                        <li>Opción de auto-hospedaje para mayor privacidad y control.</li>
+                    </ul>
+                    
+                    <p><strong>Casos de uso:</strong></p>
+                    <ul>
+                        <li>Automatización de procesos empresariales.</li>
+                        <li>Extracción y manipulación de datos desde diferentes fuentes.</li>
+                        <li>Integración de sistemas de CRM, ERP y otras plataformas.</li>
+                        <li>Automatización de emails y notificaciones.</li>
+                        <li>Automatización de DevOps con CI/CD.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./scripts/scripts.js"></script>
+</body>
+</html>
