@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes de Suscripción</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .pricing-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .plans {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .plan {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 280px;
+            text-align: center;
+            position: relative;
+        }
+        .plan.popular {
+            border: 2px solid #a855f7;
+        }
+        .tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #a855f7;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .benefits {
+            text-align: center;
+        }
+        .benefits-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .benefit {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 220px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="pricing-container">
+        <h1>Un plan que se ajusta a tus necesidades</h1>
+        <div class="plans">
+            <div class="plan basic">
+                <h2>Básico</h2>
+                <p class="quality">720p</p>
+                <ul>
+                    <li>Buena calidad de video</li>
+                    <li>Para tu teléfono, tablet, laptop y TV</li>
+                </ul>
+                <p class="price">$18.900 al mes</p>
+            </div>
+            <div class="plan standard" onclick="alert('¡Gracias por elegirnos!')">
+                <h2>Estándar</h2>
+                <p class="quality">1080p</p>
+                <ul>
+                    <li>Excelente calidad de video</li>
+                    <li>Para tu teléfono, tablet, laptop y TV</li>
+                </ul>
+                <p class="price">$29.900 al mes</p>
+            </div>
+            <div class="plan premium popular">
+                <h2>Premium</h2>
+                <p class="quality">4K + HDR</p>
+                <ul>
+                    <li>Calidad de video óptima</li>
+                    <li>Sonido inmersivo (audio espacial)</li>
+                    <li>Para tu teléfono, tablet, laptop y TV</li>
+                </ul>
+                <p class="price">$44.900 al mes</p>
+                <span class="tag">Más popular</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h2>Más motivos para unirte</h2>
+        <div class="benefits-grid">
+            <div class="benefit">
+                <h3>Disfruta en tu TV</h3>
+                <p>Ve en smart TV, PlayStation, Xbox, Chromecast, Apple TV y más.</p>
+            </div>
+            <div class="benefit">
+                <h3>Descarga tus series para verlas offline</h3>
+                <p>Guarda tu contenido favorito y siempre tendrás algo para ver.</p>
+            </div>
+            <div class="benefit">
+                <h3>Disfruta donde quieras</h3>
+                <p>Películas y series ilimitadas en tu teléfono, tablet, laptop y TV.</p>
+            </div>
+            <div class="benefit">
+                <h3>Crea perfiles para niños</h3>
+                <p>Los niños vivirán aventuras con sus personajes favoritos en un espacio diseñado exclusivamente para ellos.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
