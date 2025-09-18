@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reloj digital y analógico — JS puro</title>
+  <style>
+    :root{
+      --bg: #0f1220;
+      --card: #151a2e;
+      --muted:#a7b0d0;
+      --text:#e8ecff;
+      --accent:#6aa4ff;
+      --accent-2:#9bffd1;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif;
+      background: radial-gradient(1200px 700px at 10% 10%, #141a31 0%, #0e1120 55%, #0b0e18 100%);
+      color:var(--text);
+      display:grid; place-items:center;
+    }
+    .wrap{width:min(1100px,92vw); margin:auto;}
+    header{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin:24px 0 8px}
+    h1{font-size:clamp(22px,2.8vw,34px);margin:0;font-weight:700;letter-spacing:.4px}
+    .controls{display:flex;gap:.5rem;flex-wrap:wrap}
+    .btn{
+      appearance:none;border:1px solid #2a335a;background:linear-gradient(#1a2141,#141a31);
+      color:var(--text);padding:.55rem .8rem;border-radius:12px;cursor:pointer;
+      font-weight:600; letter-spacing:.2px; transition:.2s transform,.2s filter,.2s border-color;
+    }
+    .btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    .btn:active{transform:translateY(0)}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:860px){.grid{grid-template-columns:1fr 1fr}}
+
+    .card{
+      background:linear-gradient(180deg, rgba(35,42,80,.55), rgba(20,24,46,.55));
+      border:1px solid #2a335a;border-radius:18px;padding:18px;position:relative;overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .card h2{margin:.2rem 0 1rem;font-size:1.1rem;font-weight:700;opacity:.9}
+
+    /* DIGITAL */
+    .digital{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;
+      background: radial-gradient(600px 300px at 80% 0%, rgba(106,164,255,.15), transparent 60%),
+                  radial-gradient(600px 300px at 0% 100%, rgba(155,255,209,.12), transparent 65%);
+      border-radius:14px;border:1px solid #2a335a;
+    }
+    .time{font-variant-numeric:tabular-nums; font-size: clamp(42px, 8vw, 86px); font-weight:800; line-height:1;}
+    .date{margin-top:8px; color:var(--muted); font-weight:600; letter-spacing:.3px}
+    .tz{margin-top:10px; font-size:.85rem; color:#cbd5ff; opacity:.8}
+
+    /* ANALOG */
+    .analog-wrap{display:grid;place-items:center}
+    .clock{width:min(80vw,360px);aspect-ratio:1;border-radius:50%;position:relative;
+      background: radial-gradient(circle at 50% 40%, #1b2347 0%, #121932 65%, #0e1326 100%);
+      border:1px solid #2a335a; box-shadow: inset 0 8px 25px rgba(0,0,0,.5), 0 10px 30px rgba(0,0,0,.35);
+    }
+    .center{position:absolute;inset:0;display:grid;place-items:center}
+    .pin{width:10px;height:10px;background:#fff;border-radius:50%;box-shadow:0 0 0 2px #0c1124,0 0 0 5px rgba(255,255,255,.08)}
+    .hand{position:absolute;left:50%;top:50%;transform-origin:50% 90%;transform:translate(-50%,-90%) rotate(0deg);
+      border-radius:999px;box-shadow:0 3px 10px rgba(0,0,0,.35);
+    }
+    .hand.hour{width:10px;height:28%;background:linear-gradient(#cfe3ff,#7fb1ff)}
+    .hand.min{width:7px;height:36%;background:linear-gradient(#b3ffdf,#73ffd0)}
+    .hand.sec{width:3px;height:42%;background:#ff6a6a}
+    .tick{position:absolute;left:50%;top:50%;width:2px;height:8%;transform-origin:50% 100%;opacity:.7;background:#9fb0ff;border-radius:2px}
+    .tick.major{height:12%;width:3px;opacity:1;background:#fff}
+    .label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:700;color:#cfe3ff;opacity:.9}
+    .credits{margin-top:12px;color:var(--muted);font-size:.85rem}
+    .sr-only{position:absolute;left:-9999px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Relojes en JavaScript — Digital + Analógico</h1>
+      <div class="controls">
+        <button class="btn" id="toggle-24">Formato 24h</button>
+        <button class="btn" id="toggle-seconds">Mostrar segundos</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- DIGITAL CLOCK -->
+      <section class="card">
+        <h2>Reloj digital</h2>
+        <div class="digital" aria-live="polite" aria-atomic="true">
+          <div class="time" id="digital-time">--:--</div>
+          <div class="date" id="digital-date">—</div>
+          <div class="tz" id="digital-tz"></div>
+        </div>
+      </section>
+
+      <!-- ANALOG CLOCK -->
+      <section class="card">
+        <h2>Reloj analógico</h2>
+        <div class="analog-wrap">
+          <div class="clock" aria-label="Reloj analógico">
+            <!-- marcas -->
+            <div id="ticks"></div>
+            <!-- agujas -->
+            <div class="hand hour" id="hand-hour" aria-hidden="true"></div>
+            <div class="hand min" id="hand-min" aria-hidden="true"></div>
+            <div class="hand sec" id="hand-sec" aria-hidden="true"></div>
+            <div class="center"><div class="pin" aria-hidden="true"></div></div>
+            <span class="sr-only" id="analog-sr"></span>
+          </div>
+          <p class="credits">Hecho con <strong>HTML + CSS + JS</strong> (sin librerías).</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const $ = (sel) => document.querySelector(sel);
+  const pad = (n) => String(n).padStart(2,'0');
+
+  // ----- Controles
+  let is24 = true;
+  let showSeconds = true;
+  const btn24 = $('#toggle-24');
+  const btnSec = $('#toggle-seconds');
+  btn24.addEventListener('click', () => { is24 = !is24; btn24.textContent = is24? 'Formato 24h' : 'Formato 12h'; updateNow(); });
+  btnSec.addEventListener('click', () => { showSeconds = !showSeconds; btnSec.textContent = showSeconds? 'Mostrar segundos' : 'Ocultar segundos'; updateNow(); });
+
+  // ----- Reloj Digital
+  const elTime = $('#digital-time');
+  const elDate = $('#digital-date');
+  const elTz = $('#digital-tz');
+
+  function formatTime(d){
+    let h = d.getHours();
+    const m = d.getMinutes();
+    const s = d.getSeconds();
+    let suffix = '';
+    if(!is24){
+      suffix = h >= 12 ? ' PM' : ' AM';
+      h = h % 12; h = h ? h : 12;
+    }
+    let str = `${pad(h)}:${pad(m)}`;
+    if(showSeconds) str += `:${pad(s)}`;
+    return str + suffix;
+  }
+
+  function formatDate(d){
+    const fmt = new Intl.DateTimeFormat('es-ES', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+    return fmt.format(d);
+  }
+
+  function updateDigital(d){
+    elTime.textContent = formatTime(d);
+    elDate.textContent = formatDate(d);
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
+    elTz.textContent = `Zona horaria: ${tz}`;
+  }
+
+  // ----- Reloj Analógico
+  const handHour = $('#hand-hour');
+  const handMin = $('#hand-min');
+  const handSec = $('#hand-sec');
+  const analogSr = $('#analog-sr');
+
+  // Crear marcas (12 mayores + 60 menores)
+  const ticksHost = $('#ticks');
+  for(let i=0;i<60;i++){
+    const t = document.createElement('div');
+    t.className = 'tick' + (i%5===0 ? ' major' : '');
+    const deg = i*6; // 360/60
+    t.style.transform = `translate(-50%,-100%) rotate(${deg}deg)`;
+    t.style.top = '50%';
+    t.style.left = '50%';
+    ticksHost.appendChild(t);
+  }
+
+  function updateAnalog(d){
+    const h = d.getHours();
+    const m = d.getMinutes();
+    const s = d.getSeconds();
+
+    const secDeg = s * 6; // 360/60
+    const minDeg = m * 6 + s * 0.1; // cada seg = 0.1°
+    const hourDeg = (h % 12) * 30 + m * 0.5 + s*(0.5/60);
+
+    handSec.style.transform = `translate(-50%,-90%) rotate(${secDeg}deg)`;
+    handMin.style.transform = `translate(-50%,-90%) rotate(${minDeg}deg)`;
+    handHour.style.transform = `translate(-50%,-90%) rotate(${hourDeg}deg)`;
+
+    analogSr.textContent = `Hora analógica: ${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+
+  // ----- Bucle de actualización
+  function updateNow(){
+    const d = new Date();
+    updateDigital(d);
+    updateAnalog(d);
+  }
+  updateNow();
+  // alineamos al siguiente segundo para suavidad
+  setTimeout(()=>{
+    updateNow();
+    setInterval(updateNow, 1000);
+  }, 1000 - (Date.now() % 1000));
+})();
+</script>
+</body>
+</html>
